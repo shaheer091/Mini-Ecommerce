@@ -70,11 +70,20 @@
 </head>
 <body>
   <form action="/home" method="post">
+    <label for="username">Enter Username</label>
+    <input type="text" name="username" placeholder="Your username" required>
+
     <label for="email">Enter Email</label>
-    <input type="email" placeholder="Your email@example.com" >
+    <input type="email" name="email" placeholder="Your email@example.com" required>
+
     <label for="password">Enter Password</label>
-    <input type="password" placeholder="********" >
+    <input type="password" name="password" placeholder="********" required>
+
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="password" name="confirmPassword" placeholder="********" required>
+
     <button type="submit">Sign Up</button>
+
     <p>Already have an account? <a href="/login">Login here</a>.</p>
   </form>
 </body>
