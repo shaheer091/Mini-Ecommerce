@@ -31,7 +31,7 @@
     input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       border: 1px solid #ddd;
       border-radius: 5px;
       box-sizing: border-box;
@@ -66,25 +66,33 @@
     a:hover {
       color: #555;
     }
+    #errorMessage{
+      height: 10px;
+      color: red;
+      
+    }
   </style>
 </head>
 <body>
-  <form action="/home" method="post">
+  <form action="/signup" method="post">
     <label for="username">Enter Username</label>
-    <input type="text" name="username" placeholder="Your username" required>
+    <input id="inputUsername" type="text" name="username" placeholder="Your username">
 
     <label for="email">Enter Email</label>
-    <input type="email" name="email" placeholder="Your email@example.com" required>
+    <input id="inputEmail" type="email" name="email" placeholder="Your email@example.com" >
 
     <label for="password">Enter Password</label>
-    <input type="password" name="password" placeholder="********" required>
+    <input id="inputPassword" type="password" name="password" placeholder="********" >
 
     <label for="confirmPassword">Confirm Password</label>
-    <input type="password" name="confirmPassword" placeholder="********" required>
+    <input type="password" name="confirmPassword" placeholder="********" >
 
-    <button type="submit">Sign Up</button>
+    <p id="errorMessage"></p>
+
+    <button type="submit" onclick="validateSignup()">Sign Up</button>
 
     <p>Already have an account? <a href="/login">Login here</a>.</p>
   </form>
 </body>
+<script src="../public/signupValidation.js"></script>
 </html>
