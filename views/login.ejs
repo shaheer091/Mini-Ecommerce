@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,16 +70,26 @@
         a:hover {
             color: #555;
         }
+
+        #errorMessage {
+            color: red;
+            height: 10px;
+        }
     </style>
 </head>
+
 <body>
     <form action="/login" method="post">
         <label for="email">Enter Email</label>
-        <input type="email" placeholder="Your email@example.com" >
+        <input type="email" name="email" placeholder="Your email@example.com">
         <label for="password">Enter Password</label>
-        <input type="password" placeholder="********" >
+        <input type="password" name="password" placeholder="********">
+        <p id="errorMessage">
+            <%= message %>
+        </p>
         <button>Login</button>
         <p>Don't have an account? <a href="/">Signup</a></p>
     </form>
 </body>
+
 </html>

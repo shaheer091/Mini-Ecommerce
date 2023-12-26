@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,33 +67,36 @@
     a:hover {
       color: #555;
     }
-    #errorMessage{
+
+    #errorMessage {
       height: 10px;
       color: red;
-      
+
     }
   </style>
 </head>
+
 <body>
-  <form action="/signup" method="post">
+  <form onsubmit="return checkSignup()" action="/signup" method="post" id="signupForm">
     <label for="username">Enter Username</label>
     <input id="inputUsername" type="text" name="username" placeholder="Your username">
 
     <label for="email">Enter Email</label>
-    <input id="inputEmail" type="email" name="email" placeholder="Your email@example.com" >
+    <input id="inputEmail" type="email" name="email" placeholder="Your email@example.com">
 
     <label for="password">Enter Password</label>
-    <input id="inputPassword" type="password" name="password" placeholder="********" >
+    <input id="inputPassword" type="password" name="password" placeholder="********">
 
     <label for="confirmPassword">Confirm Password</label>
-    <input type="password" name="confirmPassword" placeholder="********" >
+    <input id="confirmPassword" type="password" name="confirmPassword" placeholder="********">
 
     <p id="errorMessage"></p>
 
-    <button type="submit" onclick="validateSignup()">Sign Up</button>
+    <button type="submit" id="submitBtn">Sign Up</button>
 
     <p>Already have an account? <a href="/login">Login here</a>.</p>
   </form>
 </body>
-<script src="../public/signupValidation.js"></script>
+<script src="/signupValidation.js"></script>
+
 </html>
