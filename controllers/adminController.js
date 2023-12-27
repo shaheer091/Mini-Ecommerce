@@ -4,22 +4,27 @@ const products = require('../models/products')
 
 const adminHome = (req, res) => {
     if (req.session.user && req.session.isAdmin) {
-        res.render("adminHome");
+        res.render("admin/adminHome");
     } else {
         res.redirect("/login");
     }
 };
 
 const usersList = async (req, res) => {
-    try {
-        const users = await user.aggregate([
-            { $match: { userType: 'user' } }
-        ])
-        res.render('usersList', { users })
-    } catch (error) {
-        console.log(error);
-        res.redirect('/')
+    if (!req.session.user) {
+        res.redirect('/login')
+    } else {
+        try {
+            const users = await user.aggregate([
+                { $match: { userType: 'user' } }
+            ])
+            res.render('admin/usersList', { users })
+        } catch (error) {
+            console.log(error);
+            res.redirect('/')
+        }
     }
+
 }
 
 const logout = (req, res) => {
@@ -37,14 +42,27 @@ const logout = (req, res) => {
 };
 
 
-const adminProducts = (req, res) => {
-    res.render('adminProducts')
+const adminProducts = async (req, res) => {
+
+    if (req.session.user) {
+        res.render('admin/adminAddProducts')
+    } else {
+        res.redirect('/login')
+    }
 }
+
+const seeProducts = async (req, res) => {
+    const seeAllProducts = await products.find({})
+    console.log(seeAllProducts);
+    res.render('admin/adminSeeProducts', { seeAllProducts })
+}
+
+
 
 const deleteUser = async (req, res) => {
     const userId = req.body.userId;
     try {
-        if (user.UserType == 'admin') {
+        if (user.userType == 'admin') {
             res.redirect('/admin/users');
             req.flash('error', 'Admin user cannot be deleted');
         } else {
@@ -63,7 +81,7 @@ const addProducts = async (req, res) => {
         const imagePath = req.file.path
 
         if (!name || !description || !price) {
-            res.redirect('/admin/products')
+            res.redirect('/admin/seeProducts')
         }
         if (!req.file) {
             res.send('select image')
@@ -76,12 +94,47 @@ const addProducts = async (req, res) => {
                 productPrice: price
             })
             await newProduct.save()
-            res.redirect('/admin/products')
+            res.redirect('/admin/seeProducts')
         }
     } catch (err) {
         console.log(err);
     }
 
+}
+
+const editProducts = async (req, res) => {
+    const productId = req.params.id
+    console.log(productId);
+    const findProduct = await products.findById(productId)
+    res.render('admin/adminEditProducts', { findProduct })
+}
+
+
+
+const updateProducts = async (req, res) => {
+    const productId = req.params.id
+    const { name, description, price } = req.body
+    try {
+        const updatedProducts = await products.findByIdAndUpdate(
+            productId,
+            {
+                $set: {
+                    name: name,
+                    description: description,
+                    price: price
+                }
+            }, { new: true })
+        res.redirect('/admin/seeProducts')
+    } catch (err) {
+        console.log(err);
+    }
+
+}
+
+const deleteProduct = async (req, res) => {
+    const productId = req.params.id
+    await products.findByIdAndDelete(productId)
+    res.redirect('/admin/seeProducts')
 }
 
 
@@ -91,5 +144,9 @@ module.exports = {
     logout,
     deleteUser,
     adminProducts,
-    addProducts
+    addProducts,
+    seeProducts,
+    editProducts,
+    updateProducts,
+    deleteProduct
 };

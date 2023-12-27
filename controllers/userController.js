@@ -1,30 +1,30 @@
 const users = require("../models/user");
 const bcrypt = require("bcrypt");
-const productList=require('../models/products')
+const productList = require('../models/products')
 
 //get request
 const signup = (req, res) => {
-    res.render("signup");
+    res.render("common/signup");
 };
 
 const login = (req, res) => {
-    res.render("login", { message: req?.session?.message });
+    res.render("common/login", { message: req?.session?.message });
 };
 
 const home = (req, res) => {
-    res.render("home");
+    res.render("user/home");
 };
 
 const profile = (req, res) => {
-    res.render("profile");
+    res.render("user/profile");
 };
 
 const products = async (req, res) => {
-    try{
-        const productDetails=await productList.find()
+    try {
+        const productDetails = await productList.find()
         console.log(productDetails);
-        res.render("products",{products:productDetails})
-    }catch(error){
+        res.render("user/products", { products: productDetails })
+    } catch (error) {
         console.log(error);
     }
 };
@@ -34,14 +34,14 @@ const createUser = async (req, res) => {
     try {
         const { username, email, password } = req.body;
         if (!username || !email || !password) {
-            res.redirect("/signup");
+            res.redirect("signup");
         }
         const existingUser = await users.findOne({
             $or: [{ username }, { email }],
         });
 
         if (existingUser) {
-            res.redirect('/login?alert=User already exist')
+            res.redirect('login?alert=User already exist')
         } else {
             const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -108,6 +108,13 @@ const logout = (req, res) => {
         console.log(error);
     }
 };
+
+// const updateDetails = async (req, res) => {
+//     try {
+//         const { fullname, gender, place } = req.body
+
+//     }
+// }
 
 
 
