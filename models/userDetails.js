@@ -17,7 +17,7 @@ const userDetails = new mongoose.Schema({
         default: "user",
     },
 });
-const userDetails = mongoose.model("UserDetails", userDetails);
+const userDetailsModel = mongoose.model("UserDetails", userDetails);
 
 
 
