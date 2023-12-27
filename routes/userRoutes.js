@@ -12,6 +12,7 @@ router.get('/products', userController.products)
 router.get('/logout', userController.logout)
 
 
+
 router.post('/signup', validUserInput, userController.createUser)
 router.post('/login', userController.loginedUser)
 

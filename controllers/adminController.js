@@ -53,7 +53,7 @@ const adminProducts = async (req, res) => {
 
 const seeProducts = async (req, res) => {
     const seeAllProducts = await products.find({})
-    console.log(seeAllProducts);
+    // console.log(seeAllProducts);
     res.render('admin/adminSeeProducts', { seeAllProducts })
 }
 
@@ -104,7 +104,7 @@ const addProducts = async (req, res) => {
 
 const editProducts = async (req, res) => {
     const productId = req.params.id
-    console.log(productId);
+    // console.log(productId);
     const findProduct = await products.findById(productId)
     res.render('admin/adminEditProducts', { findProduct })
 }
@@ -113,17 +113,15 @@ const editProducts = async (req, res) => {
 
 const updateProducts = async (req, res) => {
     const productId = req.params.id
-    const { name, description, price } = req.body
+    const { productName, productDescription, productPrice } = req.body
+    console.log(productName, productDescription, productPrice);
+    console.log(req.body);
     try {
-        const updatedProducts = await products.findByIdAndUpdate(
-            productId,
-            {
-                $set: {
-                    name: name,
-                    description: description,
-                    price: price
-                }
-            }, { new: true })
+        if (!req.file) {
+            return res.status(400).send('no image added')
+        }
+        const imagePath = req.file.path
+        await products.updateOne({ _id: productId }, { $set: { imagePath, productName: productName, productDescription: productDescription, productPrice: productPrice } })
         res.redirect('/admin/seeProducts')
     } catch (err) {
         console.log(err);

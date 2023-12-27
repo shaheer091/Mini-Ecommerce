@@ -33,7 +33,8 @@
             margin-bottom: 20px;
             padding: 20px;
             border-radius: 8px;
-            width: 22%; /* Adjust the width as needed */
+            width: 22%;
+            /* Adjust the width as needed */
             box-sizing: border-box;
         }
 
@@ -48,7 +49,8 @@
         }
 
         img {
-            width: 100%; /* Make the image fill the container */
+            width: 100%;
+            /* Make the image fill the container */
             border-radius: 4px;
             margin-bottom: 12px;
         }
@@ -65,22 +67,27 @@
 <body>
     <h1>Product Page</h1>
 
-    <% if (seeAllProducts && seeAllProducts.length > 0) { %>
+    <% if (seeAllProducts && seeAllProducts.length> 0) { %>
         <ul>
-            <% seeAllProducts.forEach(product => { %>
+            <% seeAllProducts.forEach(product=> { %>
                 <li>
                     <img src="<%= product.imagePath.replace('public', '')%>" alt="">
-                    <h2><%= product.productName %></h2>
-                    <p><%= product.productDescription %></p>
-                    <p>Price: <%= product.productPrice %></p>
+                    <h2>
+                        <%= product.productName %>
+                    </h2>
+                    <p>
+                        <%= product.productDescription %>
+                    </p>
+                    <p>Price: <%= product.productPrice %>
+                    </p>
                     <a href="/admin/adminEditProducts/<%= product._id %>"><button>edit</button></a>
                     <a href="/admin/deleteProduct/<%=product._id%>"><button>delete</button></a>
                 </li>
-            <% }); %>
+                <% }); %>
         </ul>
-    <% } else { %>
-        <p class="no-products">No products available.</p>
-    <% } %>
+        <% } else { %>
+            <p class="no-products">No products available.</p>
+            <% } %>
 </body>
 
 </html>

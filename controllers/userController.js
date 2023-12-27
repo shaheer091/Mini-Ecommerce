@@ -4,19 +4,36 @@ const productList = require('../models/products')
 
 //get request
 const signup = (req, res) => {
-    res.render("common/signup");
+    if (req.session.user) {
+        res.redirect('/home')
+    } else {
+        res.render("common/signup");
+    }
 };
 
 const login = (req, res) => {
-    res.render("common/login", { message: req?.session?.message });
+    if (req.session.user) {
+        if (req.session.isAdmin) res.redirect('/adminHome')
+        else res.redirect('/home')
+    } else {
+        res.render("common/login", { message: req?.session?.message });
+    }
 };
 
 const home = (req, res) => {
-    res.render("user/home");
+    if (req.session.user) {
+        res.render("user/home");
+    } else {
+        res.redirect('/login')
+    }
 };
 
 const profile = (req, res) => {
-    res.render("user/profile");
+    if (req.session.user) {
+        res.render("user/profile");
+    } else {
+        res.redirect('/login')
+    }
 };
 
 const products = async (req, res) => {
@@ -82,7 +99,7 @@ const loginedUser = async (req, res) => {
             return res.redirect("/login");
         }
         req.session.user = email;
-
+        console.log(existingUser)
         if (existingUser.userType == "admin") {
             req.session.isAdmin = true;
             res.redirect("/adminHome");
@@ -90,6 +107,7 @@ const loginedUser = async (req, res) => {
             req.session.isAdmin = false;
             res.redirect("/home");
         }
+
     } catch (error) {
         console.log(error);
     }
