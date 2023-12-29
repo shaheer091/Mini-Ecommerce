@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Details Form</title>
+    <title>User Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,79 +12,81 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
         }
 
         form {
             background-color: #fff;
-            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
             width: 300px;
-            /* Adjust the width as needed */
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #333;
+            margin-bottom: 5px;
         }
 
-        input {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-
+        input,
+        textarea,
         select {
             width: 100%;
-            margin-bottom: 10px;
             padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             box-sizing: border-box;
         }
 
-        input[type="submit"] {
+        button {
             background-color: #4caf50;
-            color: #fff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
         }
 
-        input[type="submit"]:hover {
+        button:hover {
             background-color: #45a049;
         }
     </style>
 </head>
 
 <body>
+    <form action="/submitDetails" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" value="<%=allData[0]?.username%>" name="username" required>
 
-    <form action="/profileDetails" method="post">
-        <h2>User Details</h2>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<%=allData[0]?.email%>" required>
 
-        <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" value="<%=allData[0]?.fullDetails[0]?.fullName%>" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" value="<%=allData[0]?.fullDetails[0]?.age%>" required>
+
+        <label for="phonenumber">Phone Number:</label>
+        <input type="tel" id="phonenumber" name="phonenumber" value="<%=allData[0]?.fullDetails[0]?.phoneNumber%>"
+            required>
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required><%=allData[0]?.fullDetails[0]?.address%></textarea>
 
         <label for="gender">Gender:</label>
         <select id="gender" name="gender" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value=""></option>
+            <option value="female" <%=allData[0]?.fullDetails[0]?.gender==='female' ? 'selected' : '' %>>Female</option>
+            <option value="male" <%=allData[0]?.fullDetails[0]?.gender==='male' ? 'selected' : '' %>>Male</option>
+            <option value="other" <%=allData[0]?.fullDetails[0]?.gender==='other' ? 'selected' : '' %>>Other</option>
         </select>
 
-        <label for="place">Place:</label>
-        <input type="text" id="place" name="place" placeholder="Enter your place" required>
-
-        <input type="submit" value="Submit">
+        <button type="submit">Submit</button>
     </form>
-
 </body>
 
 </html>
