@@ -7,6 +7,8 @@ const adminRoutes = require('./routes/adminRoutes')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const nocache = require('nocache');
+require('dotenv').config();
+
 
 
 app.set('view engine', 'ejs');
@@ -29,13 +31,15 @@ app.use('/', userRoutes)
 app.use('/', adminRoutes)
 
 
+const port = process.env.PORT
+const dataBaseUrl=process.env.DATABASE_URL
 
-const port = 9000;
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 
-mongoose.connect("mongodb://localhost:27017/newProject")
+mongoose.connect(dataBaseUrl)
     .then(() => {
         console.log('Database connected');
     })
